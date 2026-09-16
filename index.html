@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ruang Tenang: Pencari Afirmasi</title>
+    <title>Kamus Ruang Tenang</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -14,13 +14,8 @@
             padding: 20px;
             text-align: center;
         }
-        h2 {
-            color: #2c3e50;
-        }
-        p.subtitle {
-            color: #7f8c8d;
-            margin-bottom: 30px;
-        }
+        h2 { color: #2c3e50; }
+        p.subtitle { color: #7f8c8d; margin-bottom: 30px; }
         .search-box {
             display: flex;
             gap: 10px;
@@ -46,9 +41,7 @@
             border-radius: 8px;
             cursor: pointer;
         }
-        button:hover {
-            background-color: #2563eb;
-        }
+        button:hover { background-color: #2563eb; }
         .result-card {
             background: white;
             padding: 20px 25px;
@@ -68,13 +61,13 @@
             font-style: italic;
             color: #475569;
             margin-bottom: 8px;
-            line-height: 1.6;
+            font-size: 14px;
         }
         .author {
             font-weight: bold;
             color: #334155;
             margin-bottom: 12px;
-            font-size: 14px;
+            font-size: 12px;
         }
         .affirmation {
             background: #eff6ff;
@@ -84,134 +77,135 @@
             color: #1e40af;
             font-weight: 500;
             font-size: 14px;
+            margin-bottom: 12px;
         }
-        .error {
-            color: #ef4444;
-            margin-top: 15px;
+        .suggestion {
+            font-size: 13px;
+            color: #64748b;
+            font-style: italic;
+            border-top: 1px dashed #e2e8f0;
+            padding-top: 8px;
+            text-align: right;
         }
+        .error { color: #ef4444; margin-top: 15px; }
     </style>
 </head>
 <body>
 
-    <h2>Ruang Tenang: Pencari Afirmasi</h2>
+    <h2>Kamus Ruang Tenang</h2>
     <p class="subtitle">Ketikkan apa yang sedang Anda rasakan atau masalah yang dihadapi hari ini...</p>
 
     <div class="search-box">
-        <!-- Teks panduan diubah di sini -->
-        <input type="text" id="userInput" placeholder="Ketikkan masalahmu..." onkeypress="handleKeyPress(event)">
-        <button onclick="cariKutipan()">Cari</button>
+        <input type="text" id="searchInput" placeholder="Ketikkan masalahmu (misal: malas, overthinking, capek)...">
+        <button onclick="searchAffirmation()">Cari</button>
     </div>
 
-    <!-- Tempat menampung hasil -->
-    <div id="resultsWrapper"></div>
-    
-    <div id="errorContainer" class="error"></div>
+    <div id="resultContainer"></div>
 
     <script>
         const database = [
             {
                 keywords: ["males", "malas", "kerja", "mojok", "berat", "enggan", "semangat"],
                 category: "Kehilangan Motivasi & Malas Kerja",
-                views: 0,
                 items: [
                     {
-                        quote: "“Rahasia untuk maju adalah dengan memulai. Rahasia untuk memulai adalah memecah tugas-tugas rumit menjadi bagian kecil.”",
+                        quote: "Rahasia untuk maju adalah dengan memulai. Rahasia untuk memulai adalah memecah tugas-tugas rumit menjadi bagian kecil.",
                         author: "— Mark Twain",
                         affirmation: "Aku tidak harus langsung sempurna menyelesaikan semuanya. Cukup mulai dari satu langkah kecil hari ini."
                     },
                     {
-                        quote: "“Jangan tunda sampai besok apa yang bisa dikerjakan hari ini, karena energi dan waktu terus berjalan.”",
-                        author: "— Benjamin Franklin",
-                        affirmation: "Tindakan kecil hari ini jauh lebih berharga daripada rencana besar yang hanya dipikirkan saja."
+                        quote: "Jangan tunda sampai besok apa yang bisa dikerjakan hari ini, karena energi dan waktu terus berjalan.",
+                        author: "— Pepatah Bijak",
+                        affirmation: "Aku memilih untuk mulai bergerak sekarang, meskipun pelan, asal ada kemajuan."
                     }
                 ]
             },
             {
-                keywords: ["capek", "lelah", "menyerah", "burnout", "penat"],
-                category: "Kelelahan Mental (Burnout)",
-                views: 0,
+                keywords: ["overthinking", "pikiran", "cemas", "takut", "gagal", "khawatir"],
+                category: "Kecemasan & Pikiran Berlebih",
                 items: [
                     {
-                        quote: "“Kelelahan fisik dan mental adalah cara tubuh dan pikiran kita memaksa kita untuk berhenti sejenak dan mendengarkan diri sendiri.”",
-                        author: "— Carl Jung",
-                        affirmation: "Hari ini aku sudah berjuang maksimal. Tidak apa-apa untuk melambat sejenak demi memulihkan tenaga."
-                    }
-                ]
-            },
-            {
-                keywords: ["overthinking", "kacau", "beban", "cemas", "pikiran"],
-                category: "Kecemasan & Overthinking",
-                views: 0,
-                items: [
-                    {
-                        quote: "“Kita lebih sering menderita dalam khayalan daripada dalam kenyataan.”",
+                        quote: "Kita lebih sering menderita dalam khayalan daripada dalam kenyataan.",
                         author: "— Seneca",
-                        affirmation: "Aku hanya perlu menyelesaikan apa yang ada di depan mata satu per satu dengan tenang."
+                        affirmation: "Aku melepaskan skenario buruk yang belum tentu terjadi. Aku fokus pada apa yang ada di depan mataku saat ini."
+                    },
+                    {
+                        quote: "Ketenangan datang dari dalam diri. Jangan mencarinya di luar.",
+                        author: "— Buddha",
+                        affirmation: "Pikiranku boleh ramai, tapi hatiku berhak memilih untuk tetap tenang dan bernapas perlahan."
                     }
                 ]
             },
             {
-                keywords: ["perselingkuhan", "selingkuh", "cheating", "pengkhianatan", "dikhianati", "khianat", "kecewa", "patah hati", "toxic"],
-                category: "Hubungan & Luka Kepercayaan",
-                views: 0,
+                keywords: ["capek", "lelah", "burnout", "istirahat", "beban", "stres"],
+                category: "Kelelahan Mental & Fisik",
                 items: [
                     {
-                        quote: "“Apa yang tidak membunuhmu, akan membuatmu lebih kuat. Rasa sakit hari ini adalah ketahanan esok hari.”",
-                        author: "— Friedrich Nietzsche",
-                        affirmation: "Hatiku memang sedang terluka, namun aku berhak mendapatkan ketenangan dan kedamaian untuk diriku sendiri."
+                        quote: "Istirahat bukanlah tanda kelemahan, melainkan jeda untuk mengumpulkan kekuatan baru.",
+                        author: "— Refleksi Ruang Tenang",
+                        affirmation: "Merasa lelah itu wajar. Hari ini, izinkan diriku beristirahat tanpa merasa bersalah."
+                    }
+                ]
+            },
+            {
+                keywords: ["sendiri", "kesepian", "asing", "hampa"],
+                category: "Kesepian & Keheningan",
+                items: [
+                    {
+                        quote: "Kesendirian memberi ruang bagi jiwa untuk mendengar suara hatinya sendiri.",
+                        author: "— Maharodja",
+                        affirmation: "Aku nyaman berada dalam keheningan ini. Diriku sendiri adalah teman yang baik."
                     }
                 ]
             }
         ];
 
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') {
-                cariKutipan();
-            }
-        }
-
-        function cariKutipan() {
-            const input = document.getElementById('userInput').value.toLowerCase().trim();
-            const resultsWrapper = document.getElementById('resultsWrapper');
-            const errorContainer = document.getElementById('errorContainer');
-            
-            resultsWrapper.innerHTML = '';
-            errorContainer.innerHTML = '';
+        function searchAffirmation() {
+            const input = document.getElementById('searchInput').value.toLowerCase().trim();
+            const container = document.getElementById('resultContainer');
+            container.innerHTML = '';
 
             if (!input) {
-                errorContainer.innerHTML = 'Silakan ketikkan masalahmu terlebih dahulu.';
+                container.innerHTML = '<p class="error">Silakan ketikkan sesuatu terlebih dahulu di kolom pencarian.</p>';
                 return;
             }
 
-            let matched = database.filter(item => 
-                item.keywords.some(kw => input.includes(kw))
+            // Cari kategori yang cocok berdasarkan keywords
+            let matchedCategories = database.filter(cat => 
+                cat.keywords.some(keyword => input.includes(keyword))
             );
 
-            if (matched.length > 0) {
-                matched.forEach(cat => {
-                    cat.views += 1;
-                    console.log(`[Developer Log] Kategori "${cat.category}" telah dicari sebanyak: ${cat.views} kali.`);
-                });
-                
-                matched.sort((a, b) => b.views - a.views);
-
-                matched.forEach(cat => {
-                    cat.items.forEach(item => {
-                        const card = document.createElement('div');
-                        card.className = 'result-card';
-                        card.innerHTML = `
-                            <h3>Kategori: ${cat.category}</h3>
-                            <p class="quote">${item.quote}</p>
-                            <div class="author">${item.author}</div>
-                            <div class="affirmation">Afirmasi: ${item.affirmation}</div>
-                        `;
-                        resultsWrapper.appendChild(card);
-                    });
-                });
-            } else {
-                errorContainer.innerHTML = 'Belum ada kutipan khusus untuk masalah tersebut. Coba ketik: <b>perselingkuhan</b>, <b>males kerja</b>, atau <b>capek</b>.';
+            if (matchedCategories.length === 0) {
+                container.innerHTML = `<div class="result-card"><h3>Ruang Tenang</h3><p class="quote">"Setiap badai pasti berlalu, dan setiap kesulitan membawa jalan keluar."</p><div class="affirmation">Aku kuat menghadapi hari ini, apapun bentuk tantangannya.</div><div class="suggestion">Pilih yang menurut kamu paling pas.</div></div>`;
+                return;
             }
+
+            // Tampilkan hasil dari kategori yang cocok
+            let htmlContent = '';
+            matchedCategories.forEach(cat => {
+                cat.items.forEach(item => {
+                    htmlContent += `
+                        <div class="result-card">
+                            <h3>Kategori: ${cat.category}</h3>
+                            <p class="quote">"${item.quote}"</p>
+                            <p class="author">${item.author}</p>
+                            <div class="affirmation">Afirmasi: ${item.affirmation}</div>
+                            <div class="suggestion">Pilih yang menurut kamu paling pas.</div>
+                        </div>
+                    `;
+                });
+            });
+
+            container.innerHTML = htmlContent;
         }
+
+        // Jalankan pencarian saat menekan tombol Enter
+        document.getElementById('searchInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                searchAffirmation();
+            }
+        });
     </script>
+
 </body>
 </html>
