@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruang Tenang: Pencari Afirmasi</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f9fc;
+            color: #333;
+            max-width: 650px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        p.subtitle {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            outline: none;
+        }
+        input[type="text"]:focus {
+            border-color: #3b82f6;
+        }
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2563eb;
+        }
+        .result-card {
+            background: white;
+            padding: 20px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .result-card h3 {
+            margin-top: 0;
+            color: #1e293b;
+            font-size: 16px;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 8px;
+        }
+        .quote {
+            font-style: italic;
+            color: #475569;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        .author {
+            font-weight: bold;
+            color: #334155;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        .affirmation {
+            background: #eff6ff;
+            padding: 10px 14px;
+            border-left: 4px solid #3b82f6;
+            border-radius: 4px;
+            color: #1e40af;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .error {
+            color: #ef4444;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Ruang Tenang: Pencari Afirmasi</h2>
+    <p class="subtitle">Ketikkan apa yang sedang Anda rasakan atau masalah yang dihadapi hari ini...</p>
+
+    <div class="search-box">
+        <!-- Teks panduan diubah di sini -->
+        <input type="text" id="userInput" placeholder="Ketikkan masalahmu..." onkeypress="handleKeyPress(event)">
+        <button onclick="cariKutipan()">Cari</button>
+    </div>
+
+    <!-- Tempat menampung hasil -->
+    <div id="resultsWrapper"></div>
+    
+    <div id="errorContainer" class="error"></div>
+
+    <script>
+        const database = [
+            {
+                keywords: ["males", "malas", "kerja", "mojok", "berat", "enggan", "semangat"],
+                category: "Kehilangan Motivasi & Malas Kerja",
+                views: 0,
+                items: [
+                    {
+                        quote: "“Rahasia untuk maju adalah dengan memulai. Rahasia untuk memulai adalah memecah tugas-tugas rumit menjadi bagian kecil.”",
+                        author: "— Mark Twain",
+                        affirmation: "Aku tidak harus langsung sempurna menyelesaikan semuanya. Cukup mulai dari satu langkah kecil hari ini."
+                    },
+                    {
+                        quote: "“Jangan tunda sampai besok apa yang bisa dikerjakan hari ini, karena energi dan waktu terus berjalan.”",
+                        author: "— Benjamin Franklin",
+                        affirmation: "Tindakan kecil hari ini jauh lebih berharga daripada rencana besar yang hanya dipikirkan saja."
+                    }
+                ]
+            },
+            {
+                keywords: ["capek", "lelah", "menyerah", "burnout", "penat"],
+                category: "Kelelahan Mental (Burnout)",
+                views: 0,
+                items: [
+                    {
+                        quote: "“Kelelahan fisik dan mental adalah cara tubuh dan pikiran kita memaksa kita untuk berhenti sejenak dan mendengarkan diri sendiri.”",
+                        author: "— Carl Jung",
+                        affirmation: "Hari ini aku sudah berjuang maksimal. Tidak apa-apa untuk melambat sejenak demi memulihkan tenaga."
+                    }
+                ]
+            },
+            {
+                keywords: ["overthinking", "kacau", "beban", "cemas", "pikiran"],
+                category: "Kecemasan & Overthinking",
+                views: 0,
+                items: [
+                    {
+                        quote: "“Kita lebih sering menderita dalam khayalan daripada dalam kenyataan.”",
+                        author: "— Seneca",
+                        affirmation: "Aku hanya perlu menyelesaikan apa yang ada di depan mata satu per satu dengan tenang."
+                    }
+                ]
+            },
+            {
+                keywords: ["perselingkuhan", "selingkuh", "cheating", "pengkhianatan", "dikhianati", "khianat", "kecewa", "patah hati", "toxic"],
+                category: "Hubungan & Luka Kepercayaan",
+                views: 0,
+                items: [
+                    {
+                        quote: "“Apa yang tidak membunuhmu, akan membuatmu lebih kuat. Rasa sakit hari ini adalah ketahanan esok hari.”",
+                        author: "— Friedrich Nietzsche",
+                        affirmation: "Hatiku memang sedang terluka, namun aku berhak mendapatkan ketenangan dan kedamaian untuk diriku sendiri."
+                    }
+                ]
+            }
+        ];
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                cariKutipan();
+            }
+        }
+
+        function cariKutipan() {
+            const input = document.getElementById('userInput').value.toLowerCase().trim();
+            const resultsWrapper = document.getElementById('resultsWrapper');
+            const errorContainer = document.getElementById('errorContainer');
+            
+            resultsWrapper.innerHTML = '';
+            errorContainer.innerHTML = '';
+
+            if (!input) {
+                errorContainer.innerHTML = 'Silakan ketikkan masalahmu terlebih dahulu.';
+                return;
+            }
+
+            let matched = database.filter(item => 
+                item.keywords.some(kw => input.includes(kw))
+            );
+
+            if (matched.length > 0) {
+                matched.forEach(cat => {
+                    cat.views += 1;
+                    console.log(`[Developer Log] Kategori "${cat.category}" telah dicari sebanyak: ${cat.views} kali.`);
+                });
+                
+                matched.sort((a, b) => b.views - a.views);
+
+                matched.forEach(cat => {
+                    cat.items.forEach(item => {
+                        const card = document.createElement('div');
+                        card.className = 'result-card';
+                        card.innerHTML = `
+                            <h3>Kategori: ${cat.category}</h3>
+                            <p class="quote">${item.quote}</p>
+                            <div class="author">${item.author}</div>
+                            <div class="affirmation">Afirmasi: ${item.affirmation}</div>
+                        `;
+                        resultsWrapper.appendChild(card);
+                    });
+                });
+            } else {
+                errorContainer.innerHTML = 'Belum ada kutipan khusus untuk masalah tersebut. Coba ketik: <b>perselingkuhan</b>, <b>males kerja</b>, atau <b>capek</b>.';
+            }
+        }
+    </script>
+</body>
+</html>
