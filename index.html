@@ -114,6 +114,16 @@
                         quote: "Rahasia untuk maju adalah dengan memulai. Rahasia untuk memulai adalah memecah tugas-tugas rumit menjadi bagian kecil.",
                         author: "— Mark Twain",
                         affirmation: "Afirmasi: Aku tidak harus langsung sempurna menyelesaikan semuanya. Cukup mulai dari satu langkah kecil hari ini."
+                    },
+                    {
+                        quote: "Jangan tunda sampai besok apa yang bisa dikerjakan hari ini, karena energi dan waktu terus berjalan.",
+                        author: "— Benjamin Franklin",
+                        affirmation: "Afirmasi: Tindakan kecil hari ini jauh lebih berharga daripada rencana besar yang hanya dipikirkan saja."
+                    },
+                    {
+                        quote: "Semangat tidak datang begitu saja; semangat diciptakan dari tindakan kecil yang konsisten.",
+                        author: "— Refleksi Ruang Tenang",
+                        affirmation: "Afirmasi: Aku mengizinkan diriku bergerak perlahan, yang penting aku tidak berhenti melangkah."
                     }
                 ]
             },
@@ -126,6 +136,11 @@
                         quote: "Kita lebih sering menderita dalam khayalan daripada dalam kenyataan.",
                         author: "— Seneca",
                         affirmation: "Afirmasi: Aku melepaskan skenario buruk yang belum tentu terjadi. Aku fokus pada apa yang ada di depan mataku saat ini."
+                    },
+                    {
+                        quote: "Ketenangan datang dari dalam diri. Jangan mencarinya di luar.",
+                        author: "— Buddha",
+                        affirmation: "Afirmasi: Pikiranku boleh ramai, tapi hatiku berhak memilih untuk tetap tenang dan bernapas perlahan."
                     }
                 ]
             },
@@ -138,6 +153,11 @@
                         quote: "Istirahat bukanlah tanda kelemahan, melainkan jeda untuk mengumpulkan kekuatan baru.",
                         author: "— Refleksi Ruang Tenang",
                         affirmation: "Afirmasi: Merasa lelah itu wajar. Hari ini, izinkan diriku beristirahat tanpa merasa bersalah."
+                    },
+                    {
+                        quote: "Bahkan mesin yang paling canggih pun butuh dimatikan sejenak agar tidak terbakar.",
+                        author: "— Catatan Produksi",
+                        affirmation: "Afirmasi: Menjaga kewarasan dan kesehatan diriku adalah prioritas utamaku hari ini."
                     }
                 ]
             },
@@ -152,6 +172,16 @@
                         quote: "The secret of getting ahead is getting started.",
                         author: "— Mark Twain",
                         affirmation: "Affirmation: I don't have to be perfect right away. Taking one small step today is enough."
+                    },
+                    {
+                        quote: "Action isn't just the effect of motivation; it's also the cause of it.",
+                        author: "— Mark Manson",
+                        affirmation: "Affirmation: I will take just one tiny action right now, and let momentum build itself."
+                    },
+                    {
+                        quote: "Small disciplines repeated with consistency every day lead to great achievements gained slowly over time.",
+                        author: "— John C. Maxwell",
+                        affirmation: "Affirmation: Progress is progress, no matter how small. I am moving forward at my own pace."
                     }
                 ]
             },
@@ -164,6 +194,11 @@
                         quote: "We suffer more often in imagination than in reality.",
                         author: "— Seneca",
                         affirmation: "Affirmation: I release the worst-case scenarios that haven't happened. I focus on what is right in front of me today."
+                    },
+                    {
+                        quote: "You don't have to see the whole staircase, just take the first step.",
+                        author: "— Martin Luther King Jr.",
+                        affirmation: "Affirmation: I quiet my racing mind by grounding myself in this exact present moment."
                     }
                 ]
             },
@@ -176,6 +211,11 @@
                         quote: "Rest is not a sign of weakness; it is a pause to gather new strength.",
                         author: "— Quiet Space Reflection",
                         affirmation: "Affirmation: It is okay to feel drained. Today, I give myself permission to rest without guilt."
+                    },
+                    {
+                        quote: "Almost everything will work again if you unplug it for a few minutes... including you.",
+                        author: "— Anne Lamott",
+                        affirmation: "Affirmation: I choose to step back, breathe deeply, and let my mind recharge."
                     }
                 ]
             }
@@ -195,7 +235,6 @@
                 cat.keywords.some(keyword => input.includes(keyword))
             );
 
-            // Tampilan jika kata kunci tidak ditemukan (Fallback Dwibahasa)
             if (matchedCategories.length === 0) {
                 container.innerHTML = `
                     <div class="result-card">
