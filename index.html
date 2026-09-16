@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kamus Ruang Tenang</title>
+    <title>Kamus Ruang Tenang / Quiet Space Dictionary</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -93,52 +93,46 @@
 <body>
 
     <h2>Ruang Tenang: Pencari Afirmasi</h2>
-    <p class="subtitle">Ketikkan apa yang sedang Anda rasakan atau masalah yang dihadapi hari ini...</p>
+    <p class="subtitle">Ketikkan apa yang sedang Anda rasakan... / Type how you are feeling today...</p>
 
     <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Ketikkan masalahmu (misal: males, overthinking, capek)...">
-        <button onclick="searchAffirmation()">Cari</button>
+        <input type="text" id="searchInput" placeholder="misal: males, capek, lazy, tired, overthinking...">
+        <button onclick="searchAffirmation()">Cari / Search</button>
     </div>
 
     <div id="resultContainer"></div>
 
     <script>
         const database = [
+            // === DATABASE BAHASA INDONESIA ===
             {
-                keywords: ["males", "malas", "kerja", "mojok", "berat", "enggan", "semangat"],
+                keywords: ["males", "malas", "kerja", "mojok", "berat", "enggan", "semangat", "stuck"],
                 category: "Kehilangan Motivasi & Malas Kerja",
+                suggestion: "Pilih yang menurut kamu paling pas.",
                 items: [
                     {
                         quote: "Rahasia untuk maju adalah dengan memulai. Rahasia untuk memulai adalah memecah tugas-tugas rumit menjadi bagian kecil.",
                         author: "— Mark Twain",
                         affirmation: "Afirmasi: Aku tidak harus langsung sempurna menyelesaikan semuanya. Cukup mulai dari satu langkah kecil hari ini."
-                    },
-                    {
-                        quote: "Jangan tunda sampai besok apa yang bisa dikerjakan hari ini, karena energi dan waktu terus berjalan.",
-                        author: "— Benjamin Franklin",
-                        affirmation: "Afirmasi: Tindakan kecil hari ini jauh lebih berharga daripada rencana besar yang hanya dipikirkan saja."
                     }
                 ]
             },
             {
-                keywords: ["overthinking", "pikiran", "cemas", "takut", "gagal", "khawatir"],
+                keywords: ["cemas", "takut", "gagal", "khawatir", "pikiran"],
                 category: "Kecemasan & Pikiran Berlebih",
+                suggestion: "Pilih yang menurut kamu paling pas.",
                 items: [
                     {
                         quote: "Kita lebih sering menderita dalam khayalan daripada dalam kenyataan.",
                         author: "— Seneca",
                         affirmation: "Afirmasi: Aku melepaskan skenario buruk yang belum tentu terjadi. Aku fokus pada apa yang ada di depan mataku saat ini."
-                    },
-                    {
-                        quote: "Ketenangan datang dari dalam diri. Jangan mencarinya di luar.",
-                        author: "— Buddha",
-                        affirmation: "Afirmasi: Pikiranku boleh ramai, tapi hatiku berhak memilih untuk tetap tenang dan bernapas perlahan."
                     }
                 ]
             },
             {
-                keywords: ["capek", "lelah", "burnout", "istirahat", "beban", "stres"],
+                keywords: ["capek", "lelah", "burnout", "istirahat", "beban", "stres", "pening"],
                 category: "Kelelahan Mental & Fisik",
+                suggestion: "Pilih yang menurut kamu paling pas.",
                 items: [
                     {
                         quote: "Istirahat bukanlah tanda kelemahan, melainkan jeda untuk mengumpulkan kekuatan baru.",
@@ -147,14 +141,41 @@
                     }
                 ]
             },
+            
+            // === ENGLISH DATABASE ===
             {
-                keywords: ["sendiri", "kesepian", "asing", "hampa"],
-                category: "Kesepian & Keheningan",
+                keywords: ["lazy", "unmotivated", "procrastinate", "tired", "work", "sluggish", "stuck"],
+                category: "Lack of Motivation & Laziness",
+                suggestion: "Choose the one that resonates most with you.",
                 items: [
                     {
-                        quote: "Kesendirian memberi ruang bagi jiwa untuk mendengar suara hatinya sendiri.",
-                        author: "— Maharodja",
-                        affirmation: "Afirmasi: Aku nyaman berada dalam keheningan ini. Diriku sendiri adalah teman yang baik."
+                        quote: "The secret of getting ahead is getting started.",
+                        author: "— Mark Twain",
+                        affirmation: "Affirmation: I don't have to be perfect right away. Taking one small step today is enough."
+                    }
+                ]
+            },
+            {
+                keywords: ["overthinking", "anxious", "anxiety", "fear", "worry", "scared", "fail"],
+                category: "Anxiety & Overthinking",
+                suggestion: "Choose the one that resonates most with you.",
+                items: [
+                    {
+                        quote: "We suffer more often in imagination than in reality.",
+                        author: "— Seneca",
+                        affirmation: "Affirmation: I release the worst-case scenarios that haven't happened. I focus on what is right in front of me today."
+                    }
+                ]
+            },
+            {
+                keywords: ["exhausted", "burnout", "stress", "rest", "heavy", "drained"],
+                category: "Mental & Physical Exhaustion",
+                suggestion: "Choose the one that resonates most with you.",
+                items: [
+                    {
+                        quote: "Rest is not a sign of weakness; it is a pause to gather new strength.",
+                        author: "— Quiet Space Reflection",
+                        affirmation: "Affirmation: It is okay to feel drained. Today, I give myself permission to rest without guilt."
                     }
                 ]
             }
@@ -166,7 +187,7 @@
             container.innerHTML = '';
 
             if (!input) {
-                container.innerHTML = '<p class="error">Silakan ketikkan sesuatu terlebih dahulu di kolom pencarian.</p>';
+                container.innerHTML = '<p class="error">Ketikkan sesuatu / Please type something first.</p>';
                 return;
             }
 
@@ -174,13 +195,14 @@
                 cat.keywords.some(keyword => input.includes(keyword))
             );
 
+            // Tampilan jika kata kunci tidak ditemukan (Fallback Dwibahasa)
             if (matchedCategories.length === 0) {
                 container.innerHTML = `
                     <div class="result-card">
-                        <h3>Ruang Tenang</h3>
-                        <p class="quote">"Setiap badai pasti berlalu, dan setiap kesulitan membawa jalan keluar."</p>
-                        <div class="affirmation">Afirmasi: Aku kuat menghadapi hari ini, apapun bentuk tantangannya.</div>
-                        <div class="suggestion">Pilih yang menurut kamu paling pas.</div>
+                        <h3>Ruang Tenang / Quiet Space</h3>
+                        <p class="quote">"Setiap badai pasti berlalu. / Every storm will pass."</p>
+                        <div class="affirmation">Aku kuat menghadapi hari ini. / I am strong enough to face today.</div>
+                        <div class="suggestion">Pilih yang menurut kamu paling pas / Choose the one that resonates most with you.</div>
                     </div>`;
                 return;
             }
@@ -194,7 +216,7 @@
                             <p class="quote">"${item.quote}"</p>
                             <p class="author">${item.author}</p>
                             <div class="affirmation">${item.affirmation}</div>
-                            <div class="suggestion">Pilih yang menurut kamu paling pas.</div>
+                            <div class="suggestion">${cat.suggestion}</div>
                         </div>
                     `;
                 });
