@@ -84,7 +84,7 @@
             color: #64748b;
             font-style: italic;
             border-top: 1px dashed #e2e8f0;
-            padding-top: 8px;
+            padding-top: 10px;
             text-align: right;
         }
         .error { color: #ef4444; margin-top: 15px; }
@@ -92,11 +92,11 @@
 </head>
 <body>
 
-    <h2>Kamus Ruang Tenang</h2>
+    <h2>Ruang Tenang: Pencari Afirmasi</h2>
     <p class="subtitle">Ketikkan apa yang sedang Anda rasakan atau masalah yang dihadapi hari ini...</p>
 
     <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Ketikkan masalahmu (misal: malas, overthinking, capek)...">
+        <input type="text" id="searchInput" placeholder="Ketikkan masalahmu (misal: males, overthinking, capek)...">
         <button onclick="searchAffirmation()">Cari</button>
     </div>
 
@@ -111,12 +111,12 @@
                     {
                         quote: "Rahasia untuk maju adalah dengan memulai. Rahasia untuk memulai adalah memecah tugas-tugas rumit menjadi bagian kecil.",
                         author: "— Mark Twain",
-                        affirmation: "Aku tidak harus langsung sempurna menyelesaikan semuanya. Cukup mulai dari satu langkah kecil hari ini."
+                        affirmation: "Afirmasi: Aku tidak harus langsung sempurna menyelesaikan semuanya. Cukup mulai dari satu langkah kecil hari ini."
                     },
                     {
                         quote: "Jangan tunda sampai besok apa yang bisa dikerjakan hari ini, karena energi dan waktu terus berjalan.",
-                        author: "— Pepatah Bijak",
-                        affirmation: "Aku memilih untuk mulai bergerak sekarang, meskipun pelan, asal ada kemajuan."
+                        author: "— Benjamin Franklin",
+                        affirmation: "Afirmasi: Tindakan kecil hari ini jauh lebih berharga daripada rencana besar yang hanya dipikirkan saja."
                     }
                 ]
             },
@@ -127,12 +127,12 @@
                     {
                         quote: "Kita lebih sering menderita dalam khayalan daripada dalam kenyataan.",
                         author: "— Seneca",
-                        affirmation: "Aku melepaskan skenario buruk yang belum tentu terjadi. Aku fokus pada apa yang ada di depan mataku saat ini."
+                        affirmation: "Afirmasi: Aku melepaskan skenario buruk yang belum tentu terjadi. Aku fokus pada apa yang ada di depan mataku saat ini."
                     },
                     {
                         quote: "Ketenangan datang dari dalam diri. Jangan mencarinya di luar.",
                         author: "— Buddha",
-                        affirmation: "Pikiranku boleh ramai, tapi hatiku berhak memilih untuk tetap tenang dan bernapas perlahan."
+                        affirmation: "Afirmasi: Pikiranku boleh ramai, tapi hatiku berhak memilih untuk tetap tenang dan bernapas perlahan."
                     }
                 ]
             },
@@ -143,7 +143,7 @@
                     {
                         quote: "Istirahat bukanlah tanda kelemahan, melainkan jeda untuk mengumpulkan kekuatan baru.",
                         author: "— Refleksi Ruang Tenang",
-                        affirmation: "Merasa lelah itu wajar. Hari ini, izinkan diriku beristirahat tanpa merasa bersalah."
+                        affirmation: "Afirmasi: Merasa lelah itu wajar. Hari ini, izinkan diriku beristirahat tanpa merasa bersalah."
                     }
                 ]
             },
@@ -154,7 +154,7 @@
                     {
                         quote: "Kesendirian memberi ruang bagi jiwa untuk mendengar suara hatinya sendiri.",
                         author: "— Maharodja",
-                        affirmation: "Aku nyaman berada dalam keheningan ini. Diriku sendiri adalah teman yang baik."
+                        affirmation: "Afirmasi: Aku nyaman berada dalam keheningan ini. Diriku sendiri adalah teman yang baik."
                     }
                 ]
             }
@@ -170,17 +170,21 @@
                 return;
             }
 
-            // Cari kategori yang cocok berdasarkan keywords
             let matchedCategories = database.filter(cat => 
                 cat.keywords.some(keyword => input.includes(keyword))
             );
 
             if (matchedCategories.length === 0) {
-                container.innerHTML = `<div class="result-card"><h3>Ruang Tenang</h3><p class="quote">"Setiap badai pasti berlalu, dan setiap kesulitan membawa jalan keluar."</p><div class="affirmation">Aku kuat menghadapi hari ini, apapun bentuk tantangannya.</div><div class="suggestion">Pilih yang menurut kamu paling pas.</div></div>`;
+                container.innerHTML = `
+                    <div class="result-card">
+                        <h3>Ruang Tenang</h3>
+                        <p class="quote">"Setiap badai pasti berlalu, dan setiap kesulitan membawa jalan keluar."</p>
+                        <div class="affirmation">Afirmasi: Aku kuat menghadapi hari ini, apapun bentuk tantangannya.</div>
+                        <div class="suggestion">Pilih yang menurut kamu paling pas.</div>
+                    </div>`;
                 return;
             }
 
-            // Tampilkan hasil dari kategori yang cocok
             let htmlContent = '';
             matchedCategories.forEach(cat => {
                 cat.items.forEach(item => {
@@ -189,7 +193,7 @@
                             <h3>Kategori: ${cat.category}</h3>
                             <p class="quote">"${item.quote}"</p>
                             <p class="author">${item.author}</p>
-                            <div class="affirmation">Afirmasi: ${item.affirmation}</div>
+                            <div class="affirmation">${item.affirmation}</div>
                             <div class="suggestion">Pilih yang menurut kamu paling pas.</div>
                         </div>
                     `;
@@ -199,7 +203,6 @@
             container.innerHTML = htmlContent;
         }
 
-        // Jalankan pencarian saat menekan tombol Enter
         document.getElementById('searchInput').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 searchAffirmation();
