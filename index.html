@@ -250,6 +250,14 @@
                 cat.keywords.some(keyword => input.includes(keyword))
             );
 
+            // --- TAMBAHAN FITUR PEMANTAUAN DI F12 CONSOLE ---
+            if (matchedCategories.length > 0) {
+                console.log(`[LOG SEARCH SUCCESS] Keyword ditemukan: "${input}"`);
+            } else {
+                console.warn(`[LOG SEARCH MISSING] Keyword TIDAK DIKENALI: "${input}" (Perlu ditambahkan ke database)`);
+            }
+            // ----------------------------------------------
+
             if (matchedCategories.length === 0) {
                 container.innerHTML = `
                     <div class="not-found-card">
