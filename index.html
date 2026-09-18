@@ -327,15 +327,22 @@
                 cat.keywords.some(keyword => input.includes(keyword))
             );
 
+            // Logging untuk F12 Console (opsional tambahan)
+            if (matchedCategories.length > 0) {
+                console.log(`[LOG SEARCH SUCCESS] Keyword ditemukan: "${input}"`);
+            } else {
+                console.warn(`[LOG SEARCH MISSING] Keyword TIDAK DIKENALI: "${input}"`);
+            }
+
             if (matchedCategories.length === 0) {
-                // Simpan otomatis ke memori lokal browser
+                // Simpan otomatis ke Local Storage browser
                 saveMissedKeyword(input);
 
                 container.innerHTML = `
                     <div class="not-found-card">
                         <h3>Kata Kunci Tidak Dikenali / Keyword Not Recognized</h3>
                         <p>Kata yang Anda cari: <strong>"${input}"</strong> belum ada di dalam database kamus.</p>
-                        <p style="font-size: 13px; margin-top: 10px; color: #b91c1c;">💡 Kata ini telah otomatis tercatat di panel bawah web Anda untuk bahan evaluasi!</p>
+                        <p style="font-size: 13px; margin-top: 10px; color: #b91c1c;">💡 Kata ini telah otomatis tercatat di Panel Evaluasi bagian bawah web Anda!</p>
                     </div>`;
                 return;
             }
