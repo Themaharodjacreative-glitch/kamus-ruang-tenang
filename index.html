@@ -103,6 +103,30 @@
             color: #7f1d1d;
         }
         .error { color: #ef4444; margin-top: 15px; }
+        
+        /* Panel Admin Panel Khusus Rekap */
+        .admin-panel {
+            margin-top: 40px;
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 15px 20px;
+            border-radius: 10px;
+            text-align: left;
+            font-size: 13px;
+        }
+        .admin-panel h4 { margin: 0 0 10px 0; color: #38bdf8; }
+        .admin-btn {
+            background: #334155;
+            color: white;
+            border: 1px solid #475569;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+        .admin-btn:hover { background: #475569; }
+        ul.missed-list { padding-left: 20px; margin: 8px 0; max-height: 120px; overflow-y: auto; }
     </style>
 </head>
 <body>
@@ -116,6 +140,19 @@
     </div>
 
     <div id="resultContainer"></div>
+
+    <!-- PANEL ADMIN LOKAL UNTUK MELIHAT REKAP KATA YANG HILANG -->
+    <div class="admin-panel">
+        <h4>🛠️ Panel Evaluasi Kreator (Lokal)</h4>
+        <p style="margin: 0 0 8px 0; color: #94a3b8;">Daftar kata tidak dikenal yang terekam di browser ini:</p>
+        <ul id="missedList" class="missed-list">
+            <li style="color: #64748b; font-style: italic;">Belum ada kata tercatat.</li>
+        </ul>
+        <div style="margin-top: 10px;">
+            <button class="admin-btn" onclick="loadMissedKeywords()">Muat Ulang Daftar</button>
+            <button class="admin-btn" style="background: #7f1d1d; border-color: #991b1b;" onclick="clearMissedKeywords()">Hapus Rekap</button>
+        </div>
+    </div>
 
     <script>
         const database = [
@@ -236,6 +273,46 @@
             }
         ];
 
+        // --- FUNGSI LOCAL STORAGE UNTUK PENCATATAN ---
+        function saveMissedKeyword(keyword) {
+            let missed = JSON.parse(localStorage.getItem('missedKeywords')) || [];
+            if (!missed.includes(keyword)) {
+                missed.push(keyword);
+                localStorage.setItem('missedKeywords', JSON.stringify(missed));
+            }
+            loadMissedKeywords();
+        }
+
+        function loadMissedKeywords() {
+            let missed = JSON.parse(localStorage.getItem('missedKeywords')) || [];
+            const listEl = document.getElementById('missedList');
+            listEl.innerHTML = '';
+
+            if (missed.length === 0) {
+                listEl.innerHTML = '<li style="color: #64748b; font-style: italic;">Belum ada kata tercatat.</li>';
+                return;
+            }
+
+            missed.forEach(word => {
+                let li = document.createElement('li');
+                li.textContent = word;
+                listEl.appendChild(li);
+            });
+        }
+
+        function clearMissedKeywords() {
+            if (confirm("Hapus semua rekap kata yang tidak dikenal?")) {
+                localStorage.removeItem('missedKeywords');
+                loadMissedKeywords();
+            }
+        }
+
+        // Jalankan saat halaman dimuat
+        window.onload = function() {
+            loadMissedKeywords();
+        };
+        // ----------------------------------------------
+
         function searchAffirmation() {
             const input = document.getElementById('searchInput').value.toLowerCase().trim();
             const container = document.getElementById('resultContainer');
@@ -250,20 +327,15 @@
                 cat.keywords.some(keyword => input.includes(keyword))
             );
 
-            // --- TAMBAHAN FITUR PEMANTAUAN DI F12 CONSOLE ---
-            if (matchedCategories.length > 0) {
-                console.log(`[LOG SEARCH SUCCESS] Keyword ditemukan: "${input}"`);
-            } else {
-                console.warn(`[LOG SEARCH MISSING] Keyword TIDAK DIKENALI: "${input}" (Perlu ditambahkan ke database)`);
-            }
-            // ----------------------------------------------
-
             if (matchedCategories.length === 0) {
+                // Simpan otomatis ke memori lokal browser
+                saveMissedKeyword(input);
+
                 container.innerHTML = `
                     <div class="not-found-card">
                         <h3>Kata Kunci Tidak Dikenali / Keyword Not Recognized</h3>
                         <p>Kata yang Anda cari: <strong>"${input}"</strong> belum ada di dalam database kamus.</p>
-                        <p style="font-size: 13px; margin-top: 10px; color: #b91c1c;">💡 Catat kata ini untuk bahan evaluasi penambahan kategori baru ke depannya!</p>
+                        <p style="font-size: 13px; margin-top: 10px; color: #b91c1c;">💡 Kata ini telah otomatis tercatat di panel bawah web Anda untuk bahan evaluasi!</p>
                     </div>`;
                 return;
             }
