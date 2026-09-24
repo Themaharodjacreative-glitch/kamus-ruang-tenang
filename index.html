@@ -117,13 +117,17 @@
             color: #2b6cb0;
             font-weight: 500;
             line-height: 1.6;
+            margin-bottom: 16px;
         }
-        
-        .empty-message {
-            text-align: center;
+
+        /* Panel Evaluasi Lokal di Bawah Kartu */
+        .evaluation-panel {
+            font-size: 0.85rem;
             color: #718096;
+            text-align: right;
+            border-top: 1px dashed #e2e8f0;
+            padding-top: 10px;
             font-style: italic;
-            margin-top: 20px;
         }
     </style>
 </head>
@@ -144,6 +148,9 @@
                 <div class="reflection-text">"Kekecewaan hanyalah cara semesta untuk meluruskan arah rencana yang tadinya keliru."</div>
                 <div class="affirmation-box">
                     Afirmasi: Hatiku memang sedang berat dan terluka, tapi ini bukanlah akhir dari jalanku. Aku izinkan diriku bersedih, lalu bangkit perlahan.
+                </div>
+                <div class="evaluation-panel">
+                    Pilih yang menurut kamu paling pas.
                 </div>
             </div>
         </div>
@@ -178,7 +185,6 @@
                 return;
             }
 
-            // Cek apakah kata kunci ada di database
             let hasilDitemukan = null;
             for (let kunci in databaseAfirmasi) {
                 if (input.includes(kunci)) {
@@ -187,7 +193,6 @@
                 }
             }
 
-            // Tampilkan hasil dengan format kartu yang modern
             if (hasilDitemukan) {
                 container.innerHTML = `
                     <div class="result-card">
@@ -195,6 +200,9 @@
                         <div class="reflection-text">${hasilDitemukan.refleksi}</div>
                         <div class="affirmation-box">
                             Afirmasi: ${hasilDitemukan.afirmasi}
+                        </div>
+                        <div class="evaluation-panel">
+                            Pilih yang menurut kamu paling pas.
                         </div>
                     </div>
                 `;
@@ -205,6 +213,9 @@
                         <div class="reflection-text">"Setiap perasaan yang hadir membawa pesan tentang apa yang sedang hatiku butuhkan."</div>
                         <div class="affirmation-box">
                             Afirmasi: Aku menerima apapun yang aku rasakan hari ini dengan penuh kelembutan dan kesabaran.
+                        </div>
+                        <div class="evaluation-panel">
+                            Pilih yang menurut kamu paling pas.
                         </div>
                     </div>
                 `;
