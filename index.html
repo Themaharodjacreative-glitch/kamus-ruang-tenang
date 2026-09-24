@@ -118,6 +118,13 @@
             font-weight: 500;
             line-height: 1.6;
         }
+        
+        .empty-message {
+            text-align: center;
+            color: #718096;
+            font-style: italic;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -143,11 +150,64 @@
     </div>
 
     <script>
+        // Database Afirmasi Sederhana
+        const databaseAfirmasi = {
+            "kecewa": {
+                kategori: "Kategori: Kekecewaan & Keputusasaan",
+                refleksi: "\"Kekecewaan hanyalah cara semesta untuk meluruskan arah rencana yang tadinya keliru.\"",
+                afirmasi: "Hatiku memang sedang berat dan terluka, tapi ini bukanlah akhir dari jalanku. Aku izinkan diriku bersedih, lalu bangkit perlahan."
+            },
+            "capek": {
+                kategori: "Kategori: Kelelahan & Burnout",
+                refleksi: "\"Beristirahat bukan berarti menyerah, melainkan mengumpulkan tenaga untuk melangkah lebih bijak.\"",
+                afirmasi: "Tubuh dan pikiranku berhak untuk beristirahat. Aku lepaskan sejenak beban dunia dan membiarkan diriku tenang."
+            },
+            "overthinking": {
+                kategori: "Kategori: Kecemasan & Pikiran Berlebih",
+                refleksi: "\"Tidak semua pikiran harus kamu percaya, dan tidak semua hal bisa kamu kontrol.\"",
+                afirmasi: "Aku memilih berdamai dengan ketidakpastian. Hari ini, aku fokus pada hal-hal kecil yang bisa ku kendalikan dengan tenang."
+            }
+        };
+
         function cariAfirmasi() {
-            const input = document.getElementById('searchInput').value;
-            // Logika pencarian atau interaksi bisa dikembangkan di sini
-            if(input.trim() === "") {
+            const input = document.getElementById('searchInput').value.toLowerCase().trim();
+            const container = document.getElementById('resultContainer');
+
+            if(input === "") {
                 alert("Silakan ketikkan perasaan Anda terlebih dahulu.");
+                return;
+            }
+
+            // Cek apakah kata kunci ada di database
+            let hasilDitemukan = null;
+            for (let kunci in databaseAfirmasi) {
+                if (input.includes(kunci)) {
+                    hasilDitemukan = databaseAfirmasi[kunci];
+                    break;
+                }
+            }
+
+            // Tampilkan hasil dengan format kartu yang modern
+            if (hasilDitemukan) {
+                container.innerHTML = `
+                    <div class="result-card">
+                        <div class="category-title">${hasilDitemukan.kategori}</div>
+                        <div class="reflection-text">${hasilDitemukan.refleksi}</div>
+                        <div class="affirmation-box">
+                            Afirmasi: ${hasilDitemukan.afirmasi}
+                        </div>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="result-card">
+                        <div class="category-title">Kategori Umum</div>
+                        <div class="reflection-text">"Setiap perasaan yang hadir membawa pesan tentang apa yang sedang hatiku butuhkan."</div>
+                        <div class="affirmation-box">
+                            Afirmasi: Aku menerima apapun yang aku rasakan hari ini dengan penuh kelembutan dan kesabaran.
+                        </div>
+                    </div>
+                `;
             }
         }
     </script>
