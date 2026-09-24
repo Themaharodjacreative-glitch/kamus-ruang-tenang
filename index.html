@@ -6,135 +6,99 @@
     <title>Ruang Tenang: Pencari Afirmasi</title>
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f7fafc;
-            color: #2d3748;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
             margin: 0;
-            padding: 40px 20px;
+            padding: 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
         .container {
-            max-width: 700px;
+            max-width: 600px;
             width: 100%;
             background: #ffffff;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
         h1 {
             text-align: center;
-            font-size: 1.75rem;
-            color: #1a202c;
-            margin-bottom: 8px;
+            font-size: 1.5rem;
+            color: #2c3e50;
         }
         .subtitle {
             text-align: center;
-            font-size: 0.95rem;
-            color: #718096;
-            margin-bottom: 30px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 20px;
         }
-        .search-box-wrapper {
+        .search-box {
             display: flex;
             gap: 10px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         input[type="text"] {
             flex: 1;
-            padding: 12px 16px;
+            padding: 10px;
             font-size: 1rem;
-            border: 1px solid #cbd5e0;
-            border-radius: 8px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        input[type="text"]:focus {
-            border-color: #3182ce;
-            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+            border: 1px solid #ccc;
+            border-radius: 6px;
         }
         button {
-            padding: 12px 24px;
+            padding: 10px 20px;
             font-size: 1rem;
-            font-weight: 500;
-            color: #ffffff;
-            background-color: #3182ce;
+            background-color: #3498db;
+            color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: background-color 0.2s;
         }
         button:hover {
-            background-color: #2b6cb0;
+            background-color: #2980b9;
         }
-        .result-card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 20px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-        }
-        .result-card:hover {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
-        }
-        .category-title {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #4a5568;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 8px;
-        }
-        .reflection-text {
-            font-size: 1rem;
-            font-style: italic;
-            color: #2d3748;
-            margin-bottom: 14px;
-            line-height: 1.5;
-        }
-        .affirmation-box {
-            background-color: #ebf8ff;
-            border-left: 4px solid #3182ce;
-            padding: 12px 16px;
-            border-radius: 0 8px 8px 0;
-            color: #2b6cb0;
-            font-weight: 500;
-            line-height: 1.6;
-            margin-bottom: 16px;
+        /* Kotak Hasil & Panel Evaluasi */
+        .result-box {
+            background: #fafafa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
         }
         .evaluation-panel {
             font-size: 0.85rem;
-            color: #718096;
+            color: #888;
             text-align: right;
-            border-top: 1px dashed #e2e8f0;
-            padding-top: 10px;
-            font-style: italic;
+            margin-top: 10px;
+            border-top: 1px dashed #ddd;
+            padding-top: 8px;
         }
     </style>
 </head>
 <body>
+
     <div class="container">
         <h1>Ruang Tenang: Pencari Afirmasi</h1>
-        <div class="subtitle">Ketikkan apa yang sedang Anda rasakan... / Type how you are feeling today...</div>
-        <div class="search-box-wrapper">
-            <input type="text" id="searchInput" placeholder="misal: kecewa, putus asa, capek, overthinking...">
-            <button onclick="cariAfirmasi()">Cari / Search</button>
+        <div class="subtitle">Ketikkan apa yang sedang Anda rasakan...</div>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="misal: kecewa, capek...">
+            <button onclick="cariAfirmasi()">Cari</button>
         </div>
+
         <div id="resultContainer">
-            <div class="result-card">
-                <div class="category-title">Kategori: Kekecewaan & Keputusasaan</div>
-                <div class="reflection-text">"Kekecewaan hanyalah cara semesta untuk meluruskan arah rencana yang tadinya keliru."</div>
-                <div class="affirmation-box">
-                    Afirmasi: Hatiku memang sedang berat dan terluka, tapi ini bukanlah akhir dari jalanku. Aku izinkan diriku bersedih, lalu bangkit perlahan.
-                </div>
+            <div class="result-box">
+                <p><strong>Kategori: Kekecewaan & Keputusasaan</strong></p>
+                <p><em>"Kekecewaan hanyalah cara semesta untuk meluruskan arah rencana yang tadinya keliru."</em></p>
+                <p><strong>Afirmasi:</strong> Hatiku memang sedang berat dan terluka, tapi ini bukanlah akhir dari jalanku.</p>
                 <div class="evaluation-panel">
                     Pilih yang menurut kamu paling pas.
                 </div>
             </div>
         </div>
     </div>
+
     <script>
         const databaseAfirmasi = {
             "kecewa": {
@@ -146,11 +110,6 @@
                 kategori: "Kategori: Kelelahan & Burnout",
                 refleksi: "\"Beristirahat bukan berarti menyerah, melainkan mengumpulkan tenaga untuk melangkah lebih bijak.\"",
                 afirmasi: "Tubuh dan pikiranku berhak untuk beristirahat. Aku lepaskan sejenak beban dunia dan membiarkan diriku tenang."
-            },
-            "overthinking": {
-                kategori: "Kategori: Kecemasan & Pikiran Berlebih",
-                refleksi: "\"Tidak semua pikiran harus kamu percaya, dan tidak semua hal bisa kamu kontrol.\"",
-                afirmasi: "Aku memilih berdamai dengan ketidakpastian. Hari ini, aku fokus pada hal-hal kecil yang bisa ku kendalikan dengan tenang."
             }
         };
 
@@ -163,42 +122,24 @@
                 return;
             }
 
-            let hasilDitemukan = null;
-            for (let kunci in databaseAfirmasi) {
-                if (input.includes(kunci)) {
-                    hasilDitemukan = databaseAfirmasi[kunci];
-                    break;
-                }
-            }
+            let hasil = databaseAfirmasi[input] || {
+                kategori: "Kategori Umum",
+                refleksi: "\"Setiap perasaan yang hadir membawa pesan tentang apa yang sedang hatiku butuhkan.\"",
+                afirmasi: "Aku menerima apapun yang aku rasakan hari ini dengan penuh kelembutan."
+            };
 
-            if (hasilDitemukan) {
-                container.innerHTML = `
-                    <div class="result-card">
-                        <div class="category-title">${hasilDitemukan.kategori}</div>
-                        <div class="reflection-text">${hasilDitemukan.refleksi}</div>
-                        <div class="affirmation-box">
-                            Afirmasi: ${hasilDitemukan.afirmasi}
-                        </div>
-                        <div class="evaluation-panel">
-                            Pilih yang menurut kamu paling pas.
-                        </div>
+            container.innerHTML = `
+                <div class="result-box">
+                    <p><strong>${hasil.kategori}</strong></p>
+                    <p><em>${hasil.refleksi}</em></p>
+                    <p><strong>Afirmasi:</strong> ${hasil.afirmasi}</p>
+                    <div class="evaluation-panel">
+                        Pilih yang menurut kamu paling pas.
                     </div>
-                `;
-            } else {
-                container.innerHTML = `
-                    <div class="result-card">
-                        <div class="category-title">Kategori Umum</div>
-                        <div class="reflection-text">"Setiap perasaan yang hadir membawa pesan tentang apa yang sedang hatiku butuhkan."</div>
-                        <div class="affirmation-box">
-                            Afirmasi: Aku menerima apapun yang aku rasakan hari ini dengan penuh kelembutan dan kesabaran.
-                        </div>
-                        <div class="evaluation-panel">
-                            Pilih yang menurut kamu paling pas.
-                        </div>
-                    </div>
-                `;
-            }
+                </div>
+            `;
         }
     </script>
+
 </body>
 </html>
