@@ -106,16 +106,16 @@
 
     <div class="container">
         <h1>Ruang Tenang: Pencari Afirmasi</h1>
-        <div class="subtitle">Ketikkan apa saja yang sedang Anda rasakan... (Sistem otomatis meracik pesannya)</div>
+        <div class="subtitle">Ketikkan apa saja yang sedang Anda rasakan... (Hasil otomatis bervariasi)</div>
 
         <div class="search-box-wrapper">
-            <input type="text" id="searchInput" placeholder="misal: rindu, cemas, bingung, gagal...">
-            <button onclick="cariAfirmasiOtomatis()">Cari</button>
+            <input type="text" id="searchInput" placeholder="misal: resah, rindu, lelah, bingung...">
+            <button onclick="cariAfirmasiDinamis()">Cari</button>
         </div>
 
         <div id="resultContainer">
             <div class="result-card">
-                <div class="category-title">Kategori: Refleksi Diri</div>
+                <div class="category-title">Kategori: Refleksi Diri & Ketenangan</div>
                 <div class="reflection-text">"Setiap perasaan yang hadir membawa pesan tentang apa yang sedang hatiku butuhkan."</div>
                 <div class="affirmation-box">
                     Afirmasi: Aku menerima apapun yang aku rasakan hari ini dengan penuh kelembutan.
@@ -129,7 +129,7 @@
             return str.charAt(0).toUpperCase() + str.slice(1);
         }
 
-        function cariAfirmasiOtomatis() {
+        function cariAfirmasiDinamis() {
             const input = document.getElementById('searchInput').value.toLowerCase().trim();
             const container = document.getElementById('resultContainer');
 
@@ -138,7 +138,7 @@
                 return;
             }
 
-            // Database bawaan utama untuk emosi umum
+            // Database utama untuk kata kunci spesifik
             const databaseUtama = {
                 "kecewa": {
                     kategori: "Kategori: Kekecewaan & Keputusasaan",
@@ -154,17 +154,12 @@
                     kategori: "Kategori: Kecemasan & Pikiran Berlebih",
                     refleksi: "\"Tidak semua pikiran harus kamu percaya, dan tidak semua hal bisa kamu kontrol.\"",
                     afirmasi: "Aku memilih berdamai dengan ketidakpastian. Hari ini, aku fokus pada hal-hal kecil yang bisa ku kendalikan dengan tenang."
-                },
-                "sedih": {
-                    kategori: "Kategori: Kesedihan & Air Mata",
-                    refleksi: "\"Menangis bukan tanda kelemahan, melainkan cara jiwa membersihkan diri dari beban yang terpendam.\"",
-                    afirmasi: "Aku mengizinkan air mataku mengalir untuk meredakan sesak. Setelah ini, perlahan-lahan kekuatanku akan pulih kembali."
                 }
             };
 
             let hasil = null;
 
-            // Cek apakah ada di database utama
+            // Cek ke database utama
             for (let kunci in databaseUtama) {
                 if (input.includes(kunci)) {
                     hasil = databaseUtama[kunci];
@@ -172,17 +167,38 @@
                 }
             }
 
-            // Jika kata kunci belum ada di database, sistem otomatis meraciknya secara pintar!
+            // Jika tidak ada di database utama, sistem pilihkan variasi kalimat secara acak (Dinamis)
             if (!hasil) {
                 let kataKapital = kapitalisasiHuruf(input);
+                
+                // Daftar variasi kalimat refleksi yang berbeda-beda
+                const pilihanRefleksi = [
+                    `"Mengakui rasa ${input} adalah langkah awal bagiku untuk berdamai dengan keadaan."`,
+                    `"Di balik rasa ${input} yang hadir, tersimpan pelajaran berharga tentang ketulusan hati."`,
+                    `"Tidak apa-apa merasakan ${input}; badai ini tidak akan selamanya tinggal."`,
+                    `"Perasaan ${input} ini sedang mengingatkanku untuk memeluk diriku lebih erat."`
+                ];
+
+                // Daftar variasi kalimat afirmasi yang berbeda-beda
+                const pilihanAfirmasi = [
+                    `Aku melepaskan cengkeraman rasa ${input} ini dan membiarkan ketenangan mengalir ke dalam diriku.`,
+                    `Aku berhak merasa tenang meskipun hari ini rasa ${input} sempat mampir menghampiriku.`,
+                    `Kekuatanku jauh lebih besar daripada rasa ${input} yang sedang kualami saat ini.`,
+                    `Aku memeluk diriku sendiri dan percaya bahwa ketenangan akan segera kembali menghampiriku.`
+                ];
+
+                // Pilih secara acak dari daftar pilihan di atas
+                let refleksiAcak = pilihanRefleksi[Math.floor(Math.random() * pilihanRefleksi.length)];
+                let afirmasiAcak = pilihanAfirmasi[Math.floor(Math.random() * pilihanAfirmasi.length)];
+
                 hasil = {
-                    kategori: `Kategori: Mengatasi Rasa ${kataKapital}`,
-                    refleksi: `"Ketika rasa ${input} hadir, itu adalah tanda bahwa jiwaku sedang meminta perhatian dan ruang untuk bernapas."`,
-                    afirmasi: `Aku menerima rasa ${input} ini tanpa menghakimi diriku sendiri. Aku memiliki kekuatan batin untuk melewati masa ini dengan tenang.`
+                    kategori: `Kategori: Menavigasi Rasa ${kataKapital}`,
+                    refleksi: refleksiAcak,
+                    afirmasi: afirmasiAcak
                 };
             }
 
-            // Tampilkan hasil ke dalam kartu modern
+            // Tampilkan ke kartu modern
             container.innerHTML = `
                 <div class="result-card">
                     <div class="category-title">${hasil.kategori}</div>
@@ -197,7 +213,7 @@
         // Fitur tekan Enter di keyboard
         document.getElementById("searchInput").addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
-                cariAfirmasiOtomatis();
+                cariAfirmasiDinamis();
             }
         });
     </script>
